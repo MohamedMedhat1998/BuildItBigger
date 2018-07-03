@@ -50,4 +50,6 @@ dependencies {
 
     implementation project(':JokesLibrary')
     implementation project(':jokeviewer')
+
+    testImplementation 'junit:junit:4.12'
 }
