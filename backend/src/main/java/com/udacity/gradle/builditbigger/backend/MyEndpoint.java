@@ -1,5 +1,6 @@
 package com.udacity.gradle.builditbigger.backend;
 
+import com.andalus.abomed7at55.jokeslibrary.JokeClass;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -17,12 +18,19 @@ import javax.inject.Named;
         )
 )
 public class MyEndpoint {
-
-    /** A simple endpoint method that takes a name and says Hi back */
-    @ApiMethod(name = "sayHi")
-    public MyBean sayHi(@Named("name") String name) {
+    /**
+     * This method displays a random joke from the jokes library
+     * @param flavor a key to define whether the app is in its free flavor or paid flavor
+     * @return a random joke from the jokes library
+     */
+    @ApiMethod(name = "getJoke")
+    public MyBean getJoke(@Named("flavor") String flavor) {
         MyBean response = new MyBean();
-        response.setData(name);
+        JokeClass jokeClass = new JokeClass();
+        if(flavor.equals(JokeClass.FLAVOR_PAID)){
+            jokeClass.addPremiumJokes();
+        }
+        response.setData(jokeClass.getJoke());
 
         return response;
     }

@@ -5,6 +5,8 @@ import java.util.Random;
 
 public class JokeClass {
 
+    public static final String FLAVOR_PAID = "paid";
+    public static final String FLAVOR_FREE = "free";
     private String mJoke;
     private ArrayList<String> mJokesList;
     private Random rand;
