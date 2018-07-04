@@ -16,8 +16,11 @@ import java.io.IOException;
 
 public class EndpointsAsyncTask extends AsyncTask<String,Void, String> {
     private static MyApi myApiService = null;
-    private Context context;
+    private OnLoadingFinishedListener mOnLoadingFinishedListener;
 
+    public EndpointsAsyncTask(OnLoadingFinishedListener onLoadingFinishedListener){
+        mOnLoadingFinishedListener = onLoadingFinishedListener;
+    }
     @Override
     protected String doInBackground(String... params) {
         if(myApiService == null) {  // Only do this once
@@ -49,6 +52,6 @@ public class EndpointsAsyncTask extends AsyncTask<String,Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-
+        mOnLoadingFinishedListener.onLoadingFinished(result);
     }
 }

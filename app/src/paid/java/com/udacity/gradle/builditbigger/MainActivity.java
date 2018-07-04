@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.andalus.abomed7at55.jokeslibrary.JokeClass;
 import com.andalus.abomed7at55.jokeviewer.JokeViewer;
@@ -14,13 +15,15 @@ import com.andalus.abomed7at55.jokeviewer.JokeViewer;
 import java.util.concurrent.ExecutionException;
 
 
-public class MainActivity extends AppCompatActivity {
-    JokeClass mJokeClass;
+public class MainActivity extends AppCompatActivity implements OnLoadingFinishedListener {
 
+    private JokeClass mJokeClass;
+    private Button btnTellJoke;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        btnTellJoke = findViewById(R.id.btn_tell_joke);
         mJokeClass = new JokeClass();
         mJokeClass.addPremiumJokes();
     }
@@ -49,19 +52,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        Intent i = new Intent(MainActivity.this, JokeViewer.class);
-        try {
-            String joke = new EndpointsAsyncTask().execute(JokeClass.FLAVOR_PAID).get();
-            Log.d("JOKE" , joke);
-            i.putExtra(JokeViewer.JOKE_KEY,joke);
-            mJokeClass.refresh();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        startActivity(i);
+        new EndpointsAsyncTask(this).execute(JokeClass.FLAVOR_PAID);
+        redLight();
     }
 
 
+    @Override
+    public void onLoadingFinished(String result) {
+        Intent i = new Intent(MainActivity.this, JokeViewer.class);
+        i.putExtra(JokeViewer.JOKE_KEY,result);
+        mJokeClass.refresh();
+        greenLight();
+        startActivity(i);
+    }
+
+    /**
+     * This method stops the user from being able to press the button twice before loading the joke
+     */
+    private void redLight(){
+        btnTellJoke.setEnabled(false);
+        btnTellJoke.setText(R.string.loading_message);
+    }
+
+    /**
+     * This method re-enables the user to be able to press the button
+     */
+    private void greenLight(){
+        btnTellJoke.setEnabled(true);
+        btnTellJoke.setText(R.string.button_text);
+    }
 }
