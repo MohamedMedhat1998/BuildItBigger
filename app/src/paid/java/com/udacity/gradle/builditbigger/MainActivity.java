@@ -3,6 +3,7 @@ package com.udacity.gradle.builditbigger;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
     public void tellJoke(View view) {
         Intent i = new Intent(MainActivity.this, JokeViewer.class);
         try {
-            String joke = new EndpointsAsyncTask().execute(mJokeClass.getJoke()).get();
+            String joke = new EndpointsAsyncTask().execute(JokeClass.FLAVOR_PAID).get();
+            Log.d("JOKE" , joke);
             i.putExtra(JokeViewer.JOKE_KEY,joke);
             mJokeClass.refresh();
         } catch (InterruptedException e) {

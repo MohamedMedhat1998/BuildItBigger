@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public void tellJoke(View view) {
         Intent i = new Intent(MainActivity.this, JokeViewer.class);
         try {
-            String joke = new EndpointsAsyncTask().execute(mJokeClass.getJoke()).get();
+            String joke = new EndpointsAsyncTask().execute(JokeClass.FLAVOR_FREE).get();
             i.putExtra(JokeViewer.JOKE_KEY,joke);
             mJokeClass.refresh();
         } catch (InterruptedException e) {
