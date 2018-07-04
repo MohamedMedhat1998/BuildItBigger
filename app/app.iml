@@ -204,5 +204,9 @@
     <orderEntry type="library" name="Gradle: android-android-27" level="project" />
     <orderEntry type="module" module-name="jokeviewer" />
     <orderEntry type="module" module-name="JokesLibrary" />
+    <orderEntry type="module" module-name="jokeviewer" />
+    <orderEntry type="module" module-name="JokesLibrary" />
+    <orderEntry type="module" module-name="jokeviewer" />
+    <orderEntry type="module" module-name="JokesLibrary" />
   </component>
 </module>
